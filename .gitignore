@@ -1,0 +1,90 @@
+# ----------------------------------------
+# OS-specific files
+# ----------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.Trash-*
+
+# ----------------------------------------
+# Node.js / npm / Yarn
+# ----------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Optional — uncomment if you use package lockfiles
+# !package-lock.json
+
+# ----------------------------------------
+# Build and production files
+# ----------------------------------------
+dist/
+build/
+tmp/
+temp/
+.cache/
+out/
+coverage/
+*.log
+
+# ----------------------------------------
+# Environment files
+# ----------------------------------------
+.env
+.env.local
+.env.*.local
+
+# ----------------------------------------
+# Frontend frameworks (React, Vue, Next.js, etc.)
+# ----------------------------------------
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.storybook/
+.docusaurus/
+.cache-loader/
+public/static/
+
+# ----------------------------------------
+# IDE / Editor specific
+# ----------------------------------------
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ----------------------------------------
+# Miscellaneous
+# ----------------------------------------
+*.tgz
+*.zip
+*.tar
+*.gz
+*.bak
+*.swp
+*.tmp
+
+# ----------------------------------------
+# Optional — if using testing frameworks
+# ----------------------------------------
+coverage/
+jest-html-reporters-*.html
+test-results/
+cypress/videos/
+cypress/screenshots/
