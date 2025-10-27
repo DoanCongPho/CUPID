@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import StoreProvider from '@/store/StoreProvider';
+import { ApolloWrapper } from '@/lib/ApolloClientProvider'; 
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Bọc children bằng StoreProvider */}
-        <StoreProvider>{children}</StoreProvider>
+        {/* 2. Bọc toàn bộ ứng dụng bằng ApolloWrapper */}
+        <ApolloWrapper>
+          <StoreProvider>{children}</StoreProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
