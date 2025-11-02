@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import StoreProvider from "@/store/StoreProvider";
-import { ApolloProvider } from "@/lib/ApolloProvider";
+import QueryProvider from "@/lib/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Cupid App",
@@ -15,11 +15,12 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body>
-        <ApolloProvider>
+        {}
+        <QueryProvider>
           <StoreProvider>
             {children}
           </StoreProvider>
-        </ApolloProvider>
+        </QueryProvider>
       </body>
     </html>
   );
