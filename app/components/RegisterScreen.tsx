@@ -14,8 +14,10 @@ interface RegisterScreenProps {
     dateOfBirth: string;
     profilePicture?: string;
   }) => void;
+  // Add login
   onNavigateToLogin: () => void;
 }
+
 
 export function RegisterScreen({ onRegister, onNavigateToLogin }: RegisterScreenProps) {
   const [formData, setFormData] = useState({
