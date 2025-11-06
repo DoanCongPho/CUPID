@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Heart, Mail, Lock, Eye, EyeOff, User, Calendar } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Heart, Mail, Lock, Eye, EyeOff, User, Calendar, Camera, Upload } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
 import { Checkbox } from './ui/checkbox';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 
 interface RegisterScreenProps {
   onRegister: (userData: {
@@ -11,6 +12,7 @@ interface RegisterScreenProps {
     email: string;
     password: string;
     dateOfBirth: string;
+    profilePicture?: string;
   }) => void;
   onNavigateToLogin: () => void;
 }
@@ -26,6 +28,8 @@ export function RegisterScreen({ onRegister, onNavigateToLogin }: RegisterScreen
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,12 +56,50 @@ export function RegisterScreen({ onRegister, onNavigateToLogin }: RegisterScreen
         email: formData.email,
         password: formData.password,
         dateOfBirth: formData.dateOfBirth,
+        profilePicture: profilePicture || undefined,
       });
     }
   };
 
   const updateField = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+      }
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const getInitials = () => {
+    if (!formData.name.trim()) return 'U';
+    const names = formData.name.trim().split(' ');
+    if (names.length >= 2) {
+      return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+    }
+    return names[0][0].toUpperCase();
   };
 
   return (
@@ -77,6 +119,45 @@ export function RegisterScreen({ onRegister, onNavigateToLogin }: RegisterScreen
         {/* Registration Form */}
         <Card className="p-8 bg-white/80 backdrop-blur border-purple-100">
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Profile Picture Upload */}
+            <div className="flex flex-col items-center space-y-3 pb-2">
+              <div className="relative">
+                <Avatar className="w-24 h-24 border-4 border-purple-100">
+                  {profilePicture ? (
+                    <AvatarImage src={profilePicture} alt="Profile" />
+                  ) : (
+                    <AvatarFallback className="bg-gradient-to-br from-pink-400 to-purple-500 text-white text-2xl">
+                      {getInitials()}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+                <button
+                  type="button"
+                  onClick={triggerFileInput}
+                  className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg hover:from-pink-600 hover:to-purple-700 transition-all"
+                  aria-label="Upload profile picture"
+                >
+                  <Camera className="w-4 h-4 text-white" />
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={triggerFileInput}
+                className="text-purple-600 hover:text-purple-700 transition-colors flex items-center gap-1"
+              >
+                <Upload className="w-4 h-4" />
+                {profilePicture ? 'Change Photo' : 'Upload Photo'}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+                aria-label="Profile picture file input"
+              />
+            </div>
+
             {/* Name Input */}
             <div className="space-y-2">
               <label htmlFor="name" className="text-gray-700 block">
