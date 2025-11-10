@@ -43,11 +43,12 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body>
-        <ApolloProvider>
+        {}
+        <QueryProvider>
           <StoreProvider>
             {children}
           </StoreProvider>
-        </ApolloProvider>
+        </QueryProvider>
       </body>
     </html>
   );
