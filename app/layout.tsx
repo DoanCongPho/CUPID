@@ -27,7 +27,7 @@
 
 import type { Metadata } from "next";
 import StoreProvider from "@/store/StoreProvider";
-import { ApolloProvider } from "@/lib/ApolloProvider";
+import QueryProvider from "@/lib/QueryProvider";
 import "./styles/globals.css";
 
 export const metadata: Metadata = {
@@ -43,7 +43,6 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body>
-        {}
         <QueryProvider>
           <StoreProvider>
             {children}
